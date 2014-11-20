@@ -9,7 +9,7 @@
   1. [Formatting](#formatting)
   1. [CSSDoc](#cssdoc)
   1. [Preprocessor](#preprocessor)
-  1. [Selectors](#Selectors)
+  1. [Selectors](#selectors)
   1. [Reset](#reset)
   1. [Components](#components)
   1. [Colors](#colors)
@@ -120,7 +120,7 @@
 
 ##CSSDoc
 
-  - Now we use [CSSG](http://operatino.github.io/MCSS/en/modules/cssg.html); and thinking about [KSS](https://github.com/kneath/kss/blob/master/README.md).
+  - Now we use [CSSG](http://operatino.github.io/MCSS/en/modules/cssg.html); (and thinking about [KSS](https://github.com/kneath/kss/blob/master/README.md)).
   
   ```scss
   /*
@@ -146,7 +146,7 @@
 
 ##Preprocessor
 
-  - Now we use [Sass](http://sass-lang.com/)
+  - Now we use [Sass](http://sass-lang.com/).
   - All imports at the top of the file.
   - Don't use nesting.
   - Don't use extend.
@@ -178,7 +178,7 @@
 
 ##Components
 
-  - **Syntax**: `<componentName>[--modifierName|-elementName]`
+  - **Syntax**: `<componentName>[--modifierName|-elementName]`.
  
   ```html
   <div class="dialog">
@@ -213,7 +213,7 @@
   - Use component approach:
     * Shared scss are in a 'style' folder.
     * Shared js are in a 'js' folder. 
-    * Componetns files (scss, js, html..) are in a 'components' folder
+    * Componetns files (scss, js, html..) are in a 'components' folder.
   
   ```
   style
@@ -236,7 +236,7 @@
   
 ##Variables
 
-  - **Syntax**: `<property>-<value>[--componentName]`
+  - **Syntax**: `<property>-<value>[--componentName]`.
   
   ```scss
   $margin-small--menu: 2px 4px;
@@ -272,7 +272,7 @@
     $color-primary: #673ab7;
     ```
   
-  - Use 3 letter notation where possible
+  - Use 3 letter notation where possible.
   
     ```scss
     // bad
@@ -282,7 +282,7 @@
     $color-primary: #abc;
     ```
     
-  - Use abstract names
+  - Use abstract names.
   
     ```scss
     // bad
@@ -315,7 +315,7 @@
 ## Font-size
 
   - Use `px` unit for font size.
-  - Use for font size values range from micro to giant. Stored in a separate file
+  - Use for font size values range from micro to giant. Stored in a separate file.
   
   ```scss
   // fontSize.scss
