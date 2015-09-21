@@ -7,8 +7,7 @@
 ## Table of Contents
   
   1. [Formatting](#formatting)
-  1. [CSSDoc](#cssdoc)
-  1. [Preprocessor](#preprocessor)
+  1. [Postprocessor](#postprocessor)
   1. [Selectors](#selectors)
   1. [Reset](#reset)
   1. [Components](#components)
@@ -21,10 +20,11 @@
   - Use 2 spaces indents.
   - 80 characters per line.
   - Always write semicolons.
+  - Put blank lines between rule declarations.
 
   - Each rule on a new line.
  
-  ```scss
+  ```css
   // bad
   .rule1, .rule2:hover {
   }
@@ -37,7 +37,7 @@
 
   - Each property on a new line.
 
-  ```scss
+  ```css
   // bad
   .rule { color: #fff; font-size: 15px; }
   
@@ -48,14 +48,14 @@
   }
   ```
   
-  - Use spaces and new line to correct formatting:
+  - Use spaces and a new line to correct formatting:
     * Space before a opening braket.
     * New line after a opening braket.
     * Space after a property colon.
     * No space before a property colon.
     * New line before a closing braket.
   
-  ```scss
+  ```css
   // bad
   .rule{
     color:#fff;
@@ -71,7 +71,7 @@
   
   - Use shorthand properties where possible.
  
-  ```scss
+  ```css
   // bad
   .rule {
     padding-top: 5px;
@@ -87,7 +87,7 @@
   ```
   - Omit unit specification after 0 values.
  
-  ```scss
+  ```css
   // bad
   .rule {
     margin: 0px;
@@ -101,7 +101,7 @@
   
   - Omit leading “0”s in values.
 
-  ```scss
+  ```css
   // bad
   .rule {
     opacity: 0.5;
@@ -114,43 +114,12 @@
   ```
   
   - Ordering properties meaningfully.
-  - **Comments**:
-    - Use `//` for single line comments.
-    - Use `/* ... */` for multiline comments.
 
-##CSSDoc
+##Postprocessor
 
-  - Now we use [CSSG](http://operatino.github.io/MCSS/en/modules/cssg.html); (and thinking about [KSS](https://github.com/kneath/kss/blob/master/README.md)).
-  
-  ```scss
-  /*
-    post
-        post_header
-            post_header_name
-            post_header_date
+  Don't use preprocessors!
 
-        post_body
-            ...
-  */
-  
-  .post {
-    ...
-  }
-  .post-header {
-    ...
-  }
-  .post-header-name {
-    ...
-  }
-  ```
-
-##Preprocessor
-
-  - Now we use [Sass](http://sass-lang.com/).
-  - All imports at the top of the file.
-  - Don't use nesting.
-  - Don't use extend.
-  - Don't use mixin. This is good for browser-specific, but you should use [autoprefixer](https://github.com/postcss/autoprefixer).
+  - We use [PostCSS](https://github.com/postcss/postcss).
 
 ##Selectors
   
@@ -178,137 +147,143 @@
 
 ##Components
 
-  - **Syntax**: `<componentName>[--modifierName|-elementName]`.
+  - **Syntax**: `<componentName>[--modifierName|__elementName]`.
  
   ```html
   <div class="dialog">
-    <h2 class="dialog-title"></h2>
-    <p class="dialog-text"></p>
+    <h2 class="dialog__title"></h2>
+    <p class="dialog__text"></p>
     <button class="btn btn--success">OK</button>
   </div>
   ```
   
   - **Types**: components are devided into 2 types:
     * Basic: buttons, inputs..
-    * Module: menu, login form.. can be simple or complex(i.e. contains inside the other modules).
+    * Module: menu, login form.. can be simple or complex(i.e. contains inside other modules).
 
-  - Use camelCase for naming. Names should be abstract.
+  - Prefer dashes over camelCasing.
+  - Names should be abstract.
  
   ```html
   <!-- bad -->
-  <ul class="left-menu">
+  <ul class="leftMenu">
     
   </ul>
   
   <!-- good -->
-  <ul class="verticalMenu">
+  <ul class="vertical-menu">
     
   </ul>
   ```
   
-  - Each component in a separate file with the same name.
+  - Each component in a separate file.
  
 ##File structure
 
   - Use component approach:
-    * Shared scss are in a 'style' folder.
-    * Shared js are in a 'js' folder. 
-    * Componetns files (scss, js, html..) are in a 'components' folder.
+    * Shared css in a 'style' folder.
+    * Components files (css, js, html..) in a 'components' folder.
   
   ```
   style
   |-- variables
-  |   |-- colors.scss
-  |   |-- fontSize.scss
+  |   |-- colors.css
+  |   |-- fontSize.css
   |-- reset.css
-  js
-  |-- constants
-  |   |-- sound.js
-  |-- parser.js
   components
   |-- basic
-  |   |-- input.scss
-  |   |-- button.scss
+  |   |-- input.css
+  |   |-- button.css
   |-- header
-  |   |-- header.scss
-  |   |-- header.js
+  |   |-- style.css
+  |   |-- index.js
   ```
   
 ##Variables
 
-  - **Syntax**: `<property>-<value>[--componentName]`.
+  - **Syntax**: `--<property>-<value>[--componentName]`.
   
-  ```scss
-  $margin-small--menu: 2px 4px;
+  ```css
+  :root {
+    --margin-small--menu: 2px 4px;
+  }
+
+  .menu-button {
+    margin: var(--margin-small--menu);
+  }
   ```
 
 ##Colors
 
   - All colors should be stored in variables in a separate file. Names start with the prefix 'color'.
   
-    ```scss
-    // color.scss
-    $color-primary: #673ab7;
-    $color-secondary: #9575cd;
+    ```css
+    // color.css
+    :root {
+      --color-primary: #673ab7;
+      --color-secondary: #9575cd;
+    }
     
-    // menu.scss
-    @import 'color';
+    // menu.css
+    @import 'color.css';
     
     .menu {
-      background-color: $color-primary;
+      background-color: var(--color-primary);
     }
     ```
   
   - Use HEX for colors. Letters in lowercase.
   
-    ```scss
+    ```css
     // bad
-    $color-primary: rgb(103, 58, 183);
+    --color-primary: rgb(103, 58, 183);
     
     // bad
-    $color-primary: #673AB7;
+    --color-primary: #673AB7;
     
     // good
-    $color-primary: #673ab7;
+    --color-primary: #673ab7;
     ```
   
   - Use 3 letter notation where possible.
   
-    ```scss
+    ```css
     // bad
-    $color-primary: #aabbcc;
+    --color-primary: #aabbcc;
     
     // good
-    $color-primary: #abc;
+    --color-primary: #abc;
     ```
     
   - Use abstract names.
   
-    ```scss
+    ```css
     // bad
-    $color-red: #f00;
-    $color-menu: #9575cd;
+    --color-red: #f00;
+    --color-menu: #9575cd;
     
     // good
-    $color-secondary: #9575cd;
+    --color-secondary: #9575cd;
     ```
 
 ## Z-index
 
-  - Use the 10 values of z-index which stored are stored in a separate file.
+  - Use 10 values of z-index which stored in a separate file.
 
-  ```scss
-  // zIndex.scss
-  $zIndex-1: 100;
-  $zIndex-2: 200;
-  ...
-  $zIndex-10: 1000;
+  ```css
+  // z-index.css
+  :root {
+    --z-index-1: 100;
+    --z-index-2: 200;
+    ...
+    --z-index-10: 1000;
+  }
   
-  // menu.scss
-  @import 'zIndex';
+  // menu.css
+  @import 'z-index.css';
   
   .menu {
-    z-index: $zIndex-3;
+    z-index: var(--z-index-3);
   }
   ```
 
@@ -317,26 +292,26 @@
   - Use `px` unit for font size.
   - Use for font size values range from micro to giant. Stored in a separate file.
   
-  ```scss
-  // fontSize.scss
-  $fontSize-micro: 7px;
+  ```css
+  // font-size.css
+  --font-size-micro: 7px;
   ..
-  $fontSize-small: 10px;
+  --font-size-small: 10px;
   ..
-  $fontSize-medium: 16px;
+  --font-size-medium: 16px;
   ..
-  $fontSize-big: 27px;
+  --font-size-big: 27px;
   ..
-  $fontSize-giant: 50px;
+  --font-size-giant: 50px;
   
-  // menu.scss
-  @import 'fontSize';
+  // menu.css
+  @import 'font-size.css';
   
   .menu {
-    font-size: $fontSize-medium;
+    font-size: --font-size-medium;
   }
   ```
 
 ## License
 
-MIT © Yodairish 2014
+MIT © Yodairish 2015
